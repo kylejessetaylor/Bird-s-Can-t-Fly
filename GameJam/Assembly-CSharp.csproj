@@ -130,6 +130,7 @@
      <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
      <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
      <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+     <Compile Include="Assets\Birds cant fly\Scripts\counterRotate.cs" />
      <Compile Include="Assets\Birds cant fly\Scripts\Menu.cs" />
      <Compile Include="Assets\Birds cant fly\Scripts\Player.cs" />
      <Compile Include="Assets\Birds cant fly\Scripts\Spawner.cs" />
