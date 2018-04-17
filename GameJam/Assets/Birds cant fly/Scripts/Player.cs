@@ -46,9 +46,13 @@ public class Player : MonoBehaviour
     // are the controls locked
     private bool lockControls = false;
 
+    private GameObject sceneManager;
+
     // Use this for initialization
     void Start()
     {
+        sceneManager = GameObject.Find("GameManager");
+
         // assigning the rigidbody component
         rb = GetComponent<Rigidbody>();
 
@@ -61,6 +65,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        transform.position = new Vector3(transform.position.x, 12.2f, transform.position.z);
+
         rb.velocity = rb.velocity * gradualSlowSpeed;
 
         if (!lockControls)
@@ -178,7 +185,20 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        lockControls = true;
-        anim.SetBool("Splat", true);
+        if (Time.timeSinceLevelLoad > 1 && collision.gameObject.tag != "Trigger")
+        {
+            //Animations
+            lockControls = true;
+            anim.SetBool("Splat", true);
+
+            //Building Movement disables
+            sceneManager.GetComponent<SpawnScript>().enabled = false;
+            //GameObject[] nodes = GameObject.FindGameObjectsWithTag("Trigger");
+            //foreach (GameObject node in nodes)
+            //{
+            //    node.GetComponent<NodeScript>().enabled = false;
+            //}
+
+        }
     }
 }

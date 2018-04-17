@@ -11,6 +11,7 @@ public class SpawnScript : MonoBehaviour
     private float spawnerDistance;
     private float distBetweenNodes;
 
+    private Vector3 ninetyDegrees;
     public GameObject node;
     public int numberOfNodes = 5;
     [HideInInspector]
@@ -20,6 +21,8 @@ public class SpawnScript : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+        ninetyDegrees = new Vector3(90, 0, 0);
+
         spawnerDistance = Vector3.Distance(startSpawn.transform.position, endSpawn.transform.position);
         distBetweenNodes = spawnerDistance / numberOfNodes;
 
@@ -40,15 +43,21 @@ public class SpawnScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        startSpawn.transform.position = new Vector3(GameObject.Find("Player").transform.position.x, startSpawn.transform.position.y, startSpawn.transform.position.z);
+
         Movement();
         Despawn();
     }
 
     private void Movement()
     {
-        foreach (GameObject go in spawners)
-        {
-            go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, go.transform.position.z - moveSpeed * Time.deltaTime);
+        GameObject menuScript = GetComponent<MenuManager>().inGameMenu;
+        if (menuScript == true)
+        { 
+            foreach (GameObject go in spawners)
+            {
+                go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, go.transform.position.z - moveSpeed * Time.deltaTime);
+            }
         }
     }
 
@@ -66,7 +75,7 @@ public class SpawnScript : MonoBehaviour
                 node.transform.position = startSpawn.transform.position;           
 
                 // Set different city to be a child of node
-                GameObject city = Instantiate(cities[Random.Range(0, cities.Count)], node.transform.position, Quaternion.identity);
+                GameObject city = Instantiate(cities[Random.Range(0, cities.Count)], node.transform.position, Quaternion.Euler(ninetyDegrees));
                 city.transform.SetParent(node.transform);
             }
         }
