@@ -45,6 +45,9 @@ public class Player : MonoBehaviour
 
     // are the controls locked
     private bool lockControls = false;
+    // did the player die
+    [HideInInspector]
+    public bool died = false;
 
     // Use this for initialization
     void Start()
@@ -180,5 +183,6 @@ public class Player : MonoBehaviour
     {
         lockControls = true;
         anim.SetBool("Splat", true);
+        died = true;
     }
 }

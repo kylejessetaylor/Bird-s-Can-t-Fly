@@ -384,6 +384,7 @@
     <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\CameraWind.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\counterRotate.cs" />
+    <Compile Include="Assets\Birds cant fly\Scripts\End.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\FPSCounter.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\Menu.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\MenuManager.cs" />
@@ -461,7 +462,6 @@
     <None Include="Assets\3rd party\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\3rd party\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Birds cant fly\Audio\Delete Me.txt" />
-    <None Include="Assets\Birds cant fly\Models\Delete Me.txt" />
     <None Include="Assets\Birds cant fly\Shaders\Materials\Cloud.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
