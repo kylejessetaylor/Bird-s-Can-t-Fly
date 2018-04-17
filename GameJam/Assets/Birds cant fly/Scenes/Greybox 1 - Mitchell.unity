@@ -228,11 +228,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  setSpeed: 0
   gradualSlowSpeed: 0.975
   speedIncrement: 1
   rightFlapTime: 0.5
   leftFlapTime: 0.5
+  tiltRightLimit: 45
+  tiltLeftLimit: 315
+  bankSpeed: 20
+  levelOutSpeed: 50
 --- !u!65 &317738334
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -377,6 +380,7 @@ GameObject:
   - component: {fileID: 871160291}
   - component: {fileID: 871160290}
   - component: {fileID: 871160289}
+  - component: {fileID: 871160293}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -447,6 +451,17 @@ Transform:
   m_Father: {fileID: 317738331}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 7.2110004, y: 0, z: 0}
+--- !u!114 &871160293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 871160288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a338dee5a691143a330348f09d569e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &881825272
 GameObject:
   m_ObjectHideFlags: 0
