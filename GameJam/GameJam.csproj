@@ -389,6 +389,7 @@
     <Compile Include="Assets\Birds cant fly\Scripts\Menu.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\MenuManager.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\NewSpawner\DespawnScript.cs" />
+    <Compile Include="Assets\Birds cant fly\Scripts\NewSpawner\NodeScript.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\NewSpawner\SpawnScript.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\Node.cs" />
     <Compile Include="Assets\Birds cant fly\Scripts\Player.cs" />
@@ -462,6 +463,7 @@
     <None Include="Assets\3rd party\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\3rd party\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Birds cant fly\Audio\Delete Me.txt" />
+    <None Include="Assets\Birds cant fly\Models\Delete Me.txt" />
     <None Include="Assets\Birds cant fly\Shaders\Materials\Cloud.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

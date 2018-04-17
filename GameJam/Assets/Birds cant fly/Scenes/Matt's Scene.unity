@@ -188,7 +188,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 30332051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: -39}
+  m_LocalPosition: {x: 0, y: 50, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -221,15 +221,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d05b3f762cc6546afb6903e9d0e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 35
+  initialSpeed: 50
+  maxVelocity: 200
+  acceleration: 0
+  numberOfNodes: 5
   startSpawn: {fileID: 770123511}
   endSpawn: {fileID: 1525617688}
   node: {fileID: 1507011454911942, guid: ab7f9d8b437e3624fa07ee09732ea9da, type: 2}
-  numberOfNodes: 5
   spawners: []
   cities:
   - {fileID: 1743249280232452, guid: 80a91e6e604db234db8c5c19a4de9c41, type: 2}
-  - {fileID: 1283996760084678, guid: 58df09e5b7a0b1a4ba08d07794318999, type: 2}
+  - {fileID: 1285635804744828, guid: 58df09e5b7a0b1a4ba08d07794318999, type: 2}
   - {fileID: 1800584164724874, guid: 764dc8b42e7fc404f8831d504431e6a1, type: 2}
 --- !u!4 &41356593
 Transform:

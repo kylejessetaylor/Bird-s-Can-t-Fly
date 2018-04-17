@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour
 {
-    public float moveSpeed = 10.0f;
-
+    public float initialSpeed = 50.0f;
+    public float maxVelocity = 200.0f;
+    public float acceleration = 0.5f;
+    public int numberOfNodes = 5;
     public GameObject startSpawn;
     public GameObject endSpawn;
-    private float spawnerDistance;
-    private float distBetweenNodes;
-
     public GameObject node;
-    public int numberOfNodes = 5;
-    [HideInInspector]
+    
     public List<GameObject> spawners;
     public List<GameObject> cities = new List<GameObject>();
+
+    private Vector3 ninetyDegrees;
+    private float moveSpeed;
+    private float spawnerDistance;
+    private float distBetweenNodes;
 
     // Use this for initialization
     void Awake()
     {
+        moveSpeed = initialSpeed;
+        ninetyDegrees = new Vector3(90, 0, 0);
+
         spawnerDistance = Vector3.Distance(startSpawn.transform.position, endSpawn.transform.position);
         distBetweenNodes = spawnerDistance / numberOfNodes;
 
@@ -46,6 +52,15 @@ public class SpawnScript : MonoBehaviour
 
     private void Movement()
     {
+        if (moveSpeed < maxVelocity)
+        {
+            moveSpeed += acceleration;
+        }
+        else
+        {
+            moveSpeed = maxVelocity;
+        }
+
         foreach (GameObject go in spawners)
         {
             go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, go.transform.position.z - moveSpeed * Time.deltaTime);
@@ -63,10 +78,11 @@ public class SpawnScript : MonoBehaviour
                 Destroy(oldCity);
 
                 // Changes Position
-                node.transform.position = startSpawn.transform.position;           
+                node.transform.position = startSpawn.transform.position;
 
                 // Set different city to be a child of node
-                GameObject city = Instantiate(cities[Random.Range(0, cities.Count)], node.transform.position, Quaternion.identity);
+                //Vector3 ninetyDegrees = new Vector3(90, 0, 0);
+                GameObject city = Instantiate(cities[Random.Range(0, cities.Count)], node.transform.position, Quaternion.Euler(ninetyDegrees));
                 city.transform.SetParent(node.transform);
             }
         }
