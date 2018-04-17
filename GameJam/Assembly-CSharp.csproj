@@ -130,6 +130,7 @@
      <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
      <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
      <Compile Include="Assets\3rd party\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+     <Compile Include="Assets\Birds cant fly\Scripts\CameraWind.cs" />
      <None Include="Assets\3rd party\PostProcessing\Resources\Shaders\DepthOfField.shader" />
      <None Include="Assets\3rd party\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\3rd party\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
