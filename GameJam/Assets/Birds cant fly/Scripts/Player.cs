@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     // speed that the player moves
     public float speed = 1;
     // setSpeed store the original speed
-    public float setSpeed = 0;
+    private float setSpeed = 0;
     // how the player slows down after 
     public float gradualSlowSpeed = 0.9f;
     // if the player pressed the right flap
@@ -32,6 +32,14 @@ public class Player : MonoBehaviour
     // counting to the time after a tap
     private float leftFlapCount = 0.0f;
 
+    // how far the bird can tilt to the right
+    public float tiltRightLimit = 45.0f;
+    // how far the bird can tilt to the left
+    public float tiltLeftLimit = 315.0f;
+    // speed of which the player banks
+    public float bankSpeed = 1.0f;
+    // level out speed
+    public float levelOutSpeed = 10.0f;
 
     // Use this for initialization
     void Start()
@@ -47,7 +55,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         rb.velocity = rb.velocity * gradualSlowSpeed;
-        Debug.Log(rb.velocity);
 
         // if the right btn was pressed
         if (rightFlapping)
@@ -56,6 +63,9 @@ public class Player : MonoBehaviour
         // if the left btn was pressed
         if (leftFlapping)
             LeftFlap();
+
+        // level the bird out after tilting
+        LevelOutAndPreventOverTilt();
     }
 
     // if the screen btn UI element was pressed
@@ -68,24 +78,6 @@ public class Player : MonoBehaviour
         {
             leftFlapCount = leftFlapTime;
             rb.velocity = Vector3.zero;
-        }
-    }
-
-    // move the player to the right
-    public void RightFlap()
-    {
-        if (rightFlapCount <= rightFlapTime)
-        {
-            rightFlapping = true;
-            rightFlapCount += Time.deltaTime;
-            speed += speedIncrement * Time.deltaTime;
-            rb.AddForce(rb.transform.right * speed * 50.0f, ForceMode.Force);
-        }
-        else if (rightFlapCount > rightFlapTime)
-        {
-            speed = 1.5f;
-            rightFlapCount = 0.0f;
-            rightFlapping = false;
         }
     }
 
@@ -102,11 +94,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    // move the player to the right
+    public void RightFlap()
+    {
+        if (rightFlapCount <= rightFlapTime)
+        {
+            BankRight();
+            rightFlapping = true;
+            rightFlapCount += Time.deltaTime;
+            speed += speedIncrement * Time.deltaTime;
+            rb.AddForce(rb.transform.right * speed * 50.0f, ForceMode.Force);
+        }
+        else if (rightFlapCount > rightFlapTime)
+        {
+            speed = 1.5f;
+            rightFlapCount = 0.0f;
+            rightFlapping = false;
+        }
+    }
+
     // move the player to the left
     public void LeftFlap()
     {
         if (leftFlapCount <= leftFlapTime)
         {
+            BankLeft();
             leftFlapping = true;
             leftFlapCount += Time.deltaTime;
             speed += speedIncrement * Time.deltaTime;
@@ -118,5 +130,36 @@ public class Player : MonoBehaviour
             leftFlapCount = 0.0f;
             leftFlapping = false;
         }
+    }
+
+    // tilt right
+    void BankRight()
+    {
+        rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, -bankSpeed/10);
+    }
+
+    // tilt left
+    void BankLeft()
+    {
+        rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, bankSpeed/10);
+    }
+
+    void LevelOutAndPreventOverTilt()
+    {
+        // if tilted to the right, then correct and tilt to the left
+        if (rb.transform.eulerAngles.z < 270.0f)
+            rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, -levelOutSpeed) * Time.deltaTime;
+
+        // tilted too far right
+        if (rb.transform.eulerAngles.z > tiltRightLimit && rb.transform.eulerAngles.z < 180.0f)
+            rb.transform.eulerAngles = new Vector3(0.0f, 0.0f, tiltRightLimit);
+
+        // if tilted to the left, then correct and tilt to the right
+        if (rb.transform.eulerAngles.z > 90.0f)
+            rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, levelOutSpeed) * Time.deltaTime;
+
+        // tilted too far left
+        if (rb.transform.eulerAngles.z < tiltLeftLimit && rb.transform.eulerAngles.z > 180.0f)
+            rb.transform.eulerAngles = new Vector3(0.0f, 0.0f, tiltLeftLimit);
     }
 }
