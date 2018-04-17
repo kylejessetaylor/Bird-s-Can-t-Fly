@@ -1,10 +1,20 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: db5b519958cee1349861292fcddf7d1c
 timeCreated: 1523935870
 licenseType: Free
 ShaderImporter:
   externalObjects: {}
   defaultTextures: []
+=======
+guid: 49a8c62a316f5d54aaabe569c39669e4
+timeCreated: 1523855215
+licenseType: Free
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _cloud: {fileID: 2800000, guid: 28c7aad1372ff114b90d330f8a2dd938, type: 3}
+>>>>>>> origin/master
   userData: 
   assetBundleName: 
   assetBundleVariant: 
