@@ -9,16 +9,16 @@ public class Player : MonoBehaviour
     Animator anim;
     // the players rigid body 
     private Rigidbody rb;
+    // particle death system
+    //public ParticleSystem ps = null;
     // speed that the player moves
     public float speed = 1.0f;
+    // max velocity
+    public float maxVelocity = 50.0f;
     // setSpeed store the original speed
     private float setSpeed = 0.0f;
     // how the player slows down after 
     public float gradualSlowSpeed = 0.9f;
-    // if the player pressed the right flap
-    private bool rightBtnPress = false;
-    // if the player pressed the left flap
-    private bool leftBtnPress = false;
     // is the bird flapping
     private bool rightFlapping = false;
     private bool leftFlapping = false;
@@ -42,15 +42,25 @@ public class Player : MonoBehaviour
     public float bankSpeed = 1.0f;
     // level out speed
     public float levelOutSpeed = 10.0f;
+    // did the player die
+    [HideInInspector]
+    public bool died = false;
 
     // are the controls locked
     private bool lockControls = false;
 
+    // scene manager
     private GameObject sceneManager;
+
+    //you know
+    private bool bOnce = true;
 
     // Use this for initialization
     void Start()
     {
+        // stop the particle system from playing
+        //ps.Stop();
+
         sceneManager = GameObject.Find("GameManager");
 
         // assigning the rigidbody component
@@ -65,7 +75,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         transform.position = new Vector3(transform.position.x, 12.2f, transform.position.z);
 
         rb.velocity = rb.velocity * gradualSlowSpeed;
@@ -80,8 +89,23 @@ public class Player : MonoBehaviour
             if (leftFlapping)
                 LeftFlap();
         }
+
+        // dont let the player go too はやい
+        LimitMaxSpeed();
+
         // level the bird out after tilting
         LevelOutAndPreventOverTilt();
+
+        if (died)
+            Dead();
+    }
+
+    void LimitMaxSpeed()
+    {
+        if (rb.velocity.x > maxVelocity)
+            rb.velocity = new Vector3(maxVelocity, rb.velocity.y, rb.velocity.z);
+        if (rb.velocity.x < -maxVelocity)
+            rb.velocity = new Vector3(-maxVelocity, rb.velocity.y, rb.velocity.z);
     }
 
     // if the screen btn UI element was pressed
@@ -155,13 +179,13 @@ public class Player : MonoBehaviour
     // tilt right
     void BankRight()
     {
-        rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, -bankSpeed/10);
+        rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, -bankSpeed / 10);
     }
 
     // tilt left
     void BankLeft()
     {
-        rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, bankSpeed/10);
+        rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, bankSpeed / 10);
     }
 
     void LevelOutAndPreventOverTilt()
@@ -183,12 +207,38 @@ public class Player : MonoBehaviour
             rb.transform.eulerAngles = new Vector3(0.0f, 0.0f, tiltLeftLimit);
     }
 
+    private void Dead()
+    {
+        // play the particle system once
+        if (bOnce)
+        {
+            //ps.Play();
+            bOnce = false;
+        }
+
+        // tilted too far right
+        if (rb.transform.eulerAngles.z < tiltRightLimit && rb.transform.eulerAngles.z > 1.0f)
+        {
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            //rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, 45.0f) * Time.deltaTime;
+        }
+
+        // tilted too far left
+        if (rb.transform.eulerAngles.z > tiltLeftLimit && rb.transform.eulerAngles.z < 359.0f)
+        {
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            //rb.transform.eulerAngles += new Vector3(0.0f, 0.0f, -45.0f) * Time.deltaTime;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (Time.timeSinceLevelLoad > 1 && collision.gameObject.tag != "Trigger")
         {
-            //Animations
             lockControls = true;
+            died = true;
+
+            //Animations
             anim.SetBool("Splat", true);
 
             //Building Movement disables
@@ -198,7 +248,6 @@ public class Player : MonoBehaviour
             //{
             //    node.GetComponent<NodeScript>().enabled = false;
             //}
-
         }
     }
 }

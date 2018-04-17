@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class End : MonoBehaviour
 {
     public Player player = null;
+    public float timeToWaitAfterThePenguinDiedBeforeRestartingTheGame = 5.0f;
 
     // Use this for initialization
     void Start()
@@ -24,9 +25,8 @@ public class End : MonoBehaviour
     }
     IEnumerator Example()
     {
-        print(Time.time);
-        yield return new WaitForSeconds(5);
-        print(Time.time);
+        yield return new WaitForSeconds(timeToWaitAfterThePenguinDiedBeforeRestartingTheGame);
         SceneManager.LoadScene(0);
+        player.GetComponent<Player>().died = false;
     }
 }
