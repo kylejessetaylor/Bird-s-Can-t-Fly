@@ -6,34 +6,38 @@ public class Spawner : MonoBehaviour
 {
     public string startSpawner;
     public string endSpawner;
-    public List<GameObject> buildings = new List<GameObject>();
+    public List<GameObject> cities = new List<GameObject>();
 
     private GameObject lastCity;
 
 	// Use this for initialization
-	void Awake()
+	void Start()
     {
-        GameObject firstCity = buildings[Random.Range(0, buildings.Count)];
+        GameObject firstCity = Instantiate(cities[Random.Range(0, cities.Count)]);       
         BuildCity(firstCity);
+        firstCity.transform.SetParent(transform, false);
         lastCity = firstCity;
     }
-	
-	// Update is called once per frame
-	void Update()
-    {
-		
-	}
 
-    private void OnTriggerEnter(Collider other)
+    void Update()
     {
-        if (other.tag == "Start")
+        SpawnAndDespawn();
+        CityPosition();
+    }
+
+    private void SpawnAndDespawn()
+    {
+        // If it hits the spawn trigger
+        if (GetComponentInChildren<Node>().NodeTrigger() == 1)
         {
-            GameObject newCity = buildings[Random.Range(0, buildings.Count)];
+            GameObject newCity = Instantiate(cities[Random.Range(0, cities.Count)]);
             BuildCity(newCity);
+            //newCity.transform.SetParent(transform, false);
             lastCity = newCity;
         }
 
-        if (other.tag == "End")
+        // If it hits the despawn trigger
+        if (GetComponentInChildren<Node>().NodeTrigger() == 2)
         {
             if (lastCity)
             {
@@ -44,6 +48,25 @@ public class Spawner : MonoBehaviour
 
     public void BuildCity(GameObject city)
     {
-        TrashMan.spawn(city, transform.position, Quaternion.Euler(Vector3.zero));
+        if (city)
+        {
+            //Debug.Log(city.name + " " + transform.GetChild(0).gameObject.name);
+            TrashMan.spawn(city, transform.GetChild(0).position, Quaternion.Euler(Vector3.zero));
+        }
+    }
+
+    private void CityPosition()
+    {
+        for (int i = 0; i <= (transform.childCount - 1); ++i)
+        {
+            Transform node = transform.GetChild(i);
+            
+            if (node.transform.childCount > 0)
+            {
+                Transform city = node.transform.GetChild(0);
+                city.position = node.position;
+                city.localRotation = node.localRotation;
+            }
+        }
     }
 }
