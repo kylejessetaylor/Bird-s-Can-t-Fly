@@ -1,21 +1,13 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 22bbf57ec543cee42a5aa0ec2dd9e457
-MonoImporter:
-=======
-guid: ce9a32177264b9c42a04e91e21051574
-timeCreated: 1523930286
+guid: 7988e433366b8394eb995d01ac7d6d5c
+timeCreated: 1523937966
 licenseType: Free
 MonoImporter:
   externalObjects: {}
->>>>>>> origin/master
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
-<<<<<<< HEAD
-=======
   assetBundleVariant: 
->>>>>>> origin/master
