@@ -11,7 +11,7 @@ public class NodeScript : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
-        xRot = 90.0f;
+        xRot = 70.0f;
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class NodeScript : MonoBehaviour {
         }
         else
         {
-            xRot = 90.0f;
+            xRot = 70.0f;
         }
     }
 }

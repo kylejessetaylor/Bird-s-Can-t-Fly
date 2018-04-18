@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        
         // stop the particle system from playing
         //ps.Stop();
 
@@ -74,12 +75,29 @@ public class Player : MonoBehaviour
         setSpeed = speed;
 
         anim = GetComponentInChildren<Animator>();
+
+        //Music cutting
+        StartCoroutine(WaitForMusic(musicDelay));
+    }
+    public float musicDelay = 3f;
+
+    IEnumerator WaitForMusic(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        EnableMusic();
+    }
+    public void EnableMusic()
+    {
+        //Music swap
+        foreach (AudioSource song in music.GetComponents<AudioSource>())
+        {
+            song.enabled = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(rb.velocity.x);
         transform.position = new Vector3(transform.position.x, 12.2f, transform.position.z);
 
         rb.velocity = rb.velocity * gradualSlowSpeed;
