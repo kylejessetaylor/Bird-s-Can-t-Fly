@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     //public ParticleSystem ps = null;
     // speed that the player moves
     public float speed = 1.0f;
+    // pick up speed velocity
+    private float pickUpSpeed = 1.0f;
+    // pick up speed velocity incement
+    public float pickUpSpeedIncrement = 1.5f;
     // max velocity
     public float maxVelocity = 50.0f;
     // setSpeed store the original speed
@@ -75,6 +79,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(rb.velocity.x);
         transform.position = new Vector3(transform.position.x, 12.2f, transform.position.z);
 
         rb.velocity = rb.velocity * gradualSlowSpeed;
@@ -114,10 +119,13 @@ public class Player : MonoBehaviour
         rightFlapping = true;
         rightFlapCount = 0.0f;
 
+        pickUpSpeed += pickUpSpeedIncrement;
+
         if (rb.velocity.x < 0)
         {
             leftFlapCount = leftFlapTime;
-            rb.velocity = Vector3.zero;
+            pickUpSpeed = 1.0f;
+            //rb.velocity = Vector3.zero;
         }
     }
 
@@ -127,10 +135,13 @@ public class Player : MonoBehaviour
         leftFlapping = true;
         leftFlapCount = 0.0f;
 
+        pickUpSpeed += pickUpSpeedIncrement;
+
         if (rb.velocity.x > 0)
         {
             rightFlapCount = rightFlapTime;
-            rb.velocity = Vector3.zero;
+            pickUpSpeed = 1.0f;
+            //rb.velocity = Vector3.zero;
         }
     }
 
@@ -144,7 +155,7 @@ public class Player : MonoBehaviour
             rightFlapping = true;
             rightFlapCount += Time.deltaTime;
             speed += speedIncrement * Time.deltaTime;
-            rb.AddForce(rb.transform.right * speed * 50.0f, ForceMode.Force);
+            rb.AddForce(rb.transform.right * (speed + pickUpSpeed) * 50.0f, ForceMode.Force);
         }
         else if (rightFlapCount > rightFlapTime)
         {
@@ -152,6 +163,7 @@ public class Player : MonoBehaviour
             rightFlapCount = 0.0f;
             rightFlapping = false;
             anim.SetBool("MovingLeft", false);
+            pickUpSpeed = 1.0f;
         }
     }
 
@@ -165,7 +177,7 @@ public class Player : MonoBehaviour
             leftFlapping = true;
             leftFlapCount += Time.deltaTime;
             speed += speedIncrement * Time.deltaTime;
-            rb.AddForce(-rb.transform.right * speed * 50.0f, ForceMode.Force);
+            rb.AddForce(-rb.transform.right * (speed + pickUpSpeed) * 50.0f, ForceMode.Force);
         }
         else if (leftFlapCount > leftFlapTime)
         {
@@ -173,6 +185,7 @@ public class Player : MonoBehaviour
             leftFlapCount = 0.0f;
             leftFlapping = false;
             anim.SetBool("MovingRight", false);
+            pickUpSpeed = 1.0f;
         }
     }
 
@@ -240,14 +253,32 @@ public class Player : MonoBehaviour
 
             //Animations
             anim.SetBool("Splat", true);
+            particle.Play();
+            
 
             //Building Movement disables
             sceneManager.GetComponent<SpawnScript>().enabled = false;
-            //GameObject[] nodes = GameObject.FindGameObjectsWithTag("Trigger");
-            //foreach (GameObject node in nodes)
-            //{
-            //    node.GetComponent<NodeScript>().enabled = false;
-            //}
+            Time.timeScale = 0;
+
+            sceneManager.GetComponent<MenuManager>().windSprites.SetActive(false);
+            sceneManager.GetComponent<MenuManager>().enabled = false;
+
+            ScoreLerp();
+
+            sceneManager.GetComponent<MenuManager>().penguinsDancing.SetActive(true);
+            sceneManager.GetComponent<MenuManager>().deadScore.gameObject.SetActive(true);
+            sceneManager.GetComponent<MenuManager>().score.enabled = false;
         }
+    }
+    public ParticleSystem particle;
+
+    [Header("Score Transition")]
+    public float lerpRate;
+    private void ScoreLerp()
+    {
+        RectTransform score = sceneManager.GetComponent<MenuManager>().score.GetComponent<RectTransform>();
+        RectTransform lerpPos = sceneManager.GetComponent<MenuManager>().scorePos.GetComponent<RectTransform>();
+
+        score.transform.localPosition = Vector2.Lerp(score.transform.localPosition, lerpPos.transform.localPosition, lerpRate * Time.unscaledDeltaTime);
     }
 }

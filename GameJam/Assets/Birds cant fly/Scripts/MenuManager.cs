@@ -6,9 +6,20 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
+
     public float fadeRate;
     public float launchDelay;
 
+    [Header("End Game")]
+    public TextMeshProUGUI deadScore;
+    public GameObject penguinsDancing;
+
+    [Header("Score")]
+    private float scoreN;
+    public float scoreMultiplier;
+    [HideInInspector]
+    public bool scoreCounting = true;
+    public GameObject scorePos;
 
     [Header("MainMenu")]
     public GameObject mainMenu;
@@ -27,10 +38,19 @@ public class MenuManager : MonoBehaviour {
         Time.timeScale = 0;
 
         inGameMenu.SetActive(false);
-	}
+
+        scoreN = 0;
+
+        penguinsDancing.SetActive(false);
+        deadScore.gameObject.SetActive(false);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+        //Updates Score
+        Score();
 
         //Only occurs on GameStart
         MenuFading();
@@ -100,6 +120,19 @@ public class MenuManager : MonoBehaviour {
             {
                 Launch();
             }
+        }
+    }
+
+    #endregion
+
+    #region Score
+
+    private void Score()
+    {
+        if (scoreCounting) {
+            scoreN += scoreMultiplier * Time.deltaTime;
+            score.text = Mathf.Round(scoreN).ToString();
+            deadScore.text = score.text;
         }
     }
 
