@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class End : MonoBehaviour
 {
@@ -11,16 +12,27 @@ public class End : MonoBehaviour
     private bool ticking = true;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
+        restartButton.SetActive(false);
+        restartButton.GetComponent<Image>().enabled = false;
+        restartButton.GetComponent<Button>().enabled = false;
+        restartButton.GetComponent<Button>().interactable = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<Player>().died)
+        Player pengu = player.GetComponent<Player>();
+        if (pengu.died)
         {
+            //Can Press Button
+            restartButton.SetActive(true);
+            restartButton.GetComponent<Image>().enabled = true;
+            restartButton.GetComponent<Button>().enabled = true;
+            restartButton.GetComponent<Button>().interactable = true;
+
             if (ticking)
             {
                 timer = Time.unscaledTime;
@@ -28,15 +40,18 @@ public class End : MonoBehaviour
             }
             if (Time.unscaledTime - timer >= timeToWaitAfterThePenguinDiedBeforeRestartingTheGame)
             {
-                SceneManager.LoadScene(0);
                 player.GetComponent<Player>().died = false;
+                ReloadScene(0);
             }
 
         }
 
     }
-    IEnumerator Example()
+
+    public GameObject restartButton;
+
+    public void ReloadScene(int sceneNumber)
     {
-        yield return new WaitForSeconds(timeToWaitAfterThePenguinDiedBeforeRestartingTheGame);
+        SceneManager.LoadScene(sceneNumber);
     }
 }

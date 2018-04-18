@@ -116,6 +116,12 @@ public class Player : MonoBehaviour
     // if the screen btn UI element was pressed
     public void RightClick()
     {
+        //Audio
+        if (!flap.isPlaying)
+        {
+            flap.Play();
+        }
+
         rightFlapping = true;
         rightFlapCount = 0.0f;
 
@@ -132,6 +138,12 @@ public class Player : MonoBehaviour
     // if the screen btn UI element was pressed
     public void LeftClick()
     {
+        //Audio
+        if (!flap.isPlaying)
+        {
+            flap.Play();
+        }
+
         leftFlapping = true;
         leftFlapCount = 0.0f;
 
@@ -244,6 +256,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    public AudioSource death;
+    public AudioSource flap;
+    public GameObject music;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (Time.timeSinceLevelLoad > 1 && collision.gameObject.tag != "Trigger")
@@ -254,7 +270,11 @@ public class Player : MonoBehaviour
             //Animations
             anim.SetBool("Splat", true);
             particle.Play();
-            
+
+            //Audio Death
+            death.Play();
+            //Turns off Music
+            music.SetActive(false);
 
             //Building Movement disables
             sceneManager.GetComponent<SpawnScript>().enabled = false;

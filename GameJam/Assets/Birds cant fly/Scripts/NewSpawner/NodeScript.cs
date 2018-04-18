@@ -22,6 +22,10 @@ public class NodeScript : MonoBehaviour {
             xRot -= rotateRate * Time.deltaTime;
             Vector3 rotate = new Vector3(xRot, 0, 0);
             transform.GetChild(0).rotation = Quaternion.Euler(rotate);
+
+            //float xRot = Mathf.Lerp(90, 0, rotateRate * Time.deltaTime);
+            //Vector3 rotate = new Vector3(xRot, 0, 0);
+            //transform.GetChild(0).rotation = Quaternion.Euler(rotate);
         }
         else
         {
